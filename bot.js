@@ -30,8 +30,11 @@ async function fetchAndSend(chatId = CHAT_ID) {
     console.log('🔄 جارٍ جلب السعر...');
     
     const { data } = await axios.get('https://sp-today.com', {
-      timeout: 10000
-    });
+  timeout: 30000, // 30 ثانية بدل 10
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+  }
+});
     const $ = cheerio.load(data);
     
     const prices = [];
