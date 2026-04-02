@@ -67,7 +67,7 @@ async function listenForMessages() {
     const response = await axios.get(`${telegramAPI}/getUpdates?offset=${lastUpdateId}`);
     const updates = response.data.result;
     
-    updates.forEach(async (update) => {
+    for (const update of updates) {
       lastUpdateId = update.update_id + 1;
       
       if (update.message && update.message.text) {
@@ -76,14 +76,18 @@ async function listenForMessages() {
         
         console.log(`📬 رسالة جديدة: ${text} من ${chatId}`);
         
-       
         if (text === '/start' || text === '/price') {
           console.log(`🚀 تم طلب السعر من ${chatId}`);
-          await fetchAndSend(chatId);
+          await fetchAndSend(chatId);  // هلأ بيستنى صح
         }
       }
-    });
+    }
   } catch (error) {
+    // تجاهل خطأ 409
+    if (error.response?.status === 409) {
+      console.log('⚠️ Conflict (409), skipping...');
+      return;
+    }
     console.error('❌ خطأ في الاستماع:', error.message);
   }
 }
