@@ -94,7 +94,7 @@ async function listenForMessages() {
 // شغّل مرة واحدة في البداية
 fetchAndSend();
 
-setInterval(listenForMessages, 2000);
+setInterval(listenForMessages, 5000);
 // ثم شغّل كل ساعة تلقائياً
 cron.schedule('0 * * * *', () => {
   console.log('⏰ تحديث دوري...');
